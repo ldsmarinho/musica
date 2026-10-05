@@ -1,788 +1,329 @@
-SPREADSHEET_ID$0<!DOCTYPE html>
-<html lang="pt-BR" class="h-full bg-slate-100">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Executivo - Gestão Musical SBC & Diadema</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Dashboard Executivo - Ensaios Musicais SBC & Diadema</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- FontAwesome CDN para ícones -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
                     colors: {
-                        navy: {
-                            50: '#f0f4f8',
-                            100: '#d9e2ec',
-                            200: '#bcccdc',
-                            300: '#9fb3c8',
-                            400: '#829ab1',
-                            500: '#627d98',
-                            600: '#486581',
-                            700: '#334e68',
-                            800: '#243b53',
-                            900: '#102a43',
-                            950: '#0b1d3a',
-                        },
-                        slateCustom: {
-                            800: '#1E293B',
-                            700: '#334155',
-                            500: '#64748B',
-                            50: '#F8FAFC',
-                        }
+                        navy: { 800: '#1E3A8A', 900: '#0F172A', 950: '#0A0F1D' },
+                        slate: { 800: '#1E293B', 900: '#0F172A' }
                     }
                 }
             }
         }
     </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-            body {
-                background-color: white !important;
-            }
-            .print-full-width {
-                width: 100% !important;
-                max-width: 100% !important;
-            }
-        }
+        @media print { .no-print { display: none !important; } body { background: white; color: black; } }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
     </style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen">
 
-    <!-- Top Navigation Header -->
-    <header class="bg-navy-900 text-white shadow-lg sticky top-0 z-50 border-b border-navy-700 no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-blue-600 p-2.5 rounded-xl shadow-md">
-                        <i class="fa-solid fa-music text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white leading-tight">Dashboard de Gestão Musical</h1>
-                        <p class="text-xs text-slate-300 font-medium">Setor São Bernardo do Campo & Diadema</p>
-                    </div>
+    <!-- Header -->
+    <header class="bg-navy-950 border-b border-slate-800 sticky top-0 z-50 no-print shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-navy-800 rounded-lg text-blue-400">
+                    <i class="fa-solid fa-music text-2xl"></i>
                 </div>
-                <div class="flex items-center space-x-3">
-                    <span class="hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-navy-800 text-blue-200 border border-navy-700">
-                        <i class="fa-regular fa-calendar-check mr-1.5 text-blue-400"></i> Atualizado: 02/Out/2026
-                    </span>
-                    <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium py-2 px-3 sm:px-4 rounded-lg transition-all duration-200 flex items-center space-x-2 shadow">
-                        <i class="fa-solid fa-print"></i>
-                        <span class="hidden sm:inline">Imprimir / PDF</span>
-                    </button>
+                <div>
+                    <h1 class="text-xl font-bold text-white tracking-wide">SETOR DE MÚSICA - SBC & DIADEMA</h1>
+                    <p class="text-xs text-slate-400">Dashboard de Ensaios Online via GitHub Pages</p>
                 </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <div id="statusBadge" class="flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-900/60 text-emerald-400 border border-emerald-700">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span>
+                    <span id="statusText">Conectado ao Google Sheets</span>
+                </div>
+                <button onclick="carregarDadosPlanilha()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg transition border border-slate-700 flex items-center">
+                    <i class="fa-solid fa-rotate-right mr-1.5"></i> Atualizar
+                </button>
+                <button onclick="window.print()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg shadow transition flex items-center">
+                    <i class="fa-solid fa-print mr-1.5"></i> Imprimir
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <!-- Principal -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-        <!-- KPI Metrics Grid -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- KPI 1 -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-slate-200/80 flex items-center justify-between">
+        <!-- KPIs -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Congregações</p>
-                    <h3 class="text-3xl font-extrabold text-navy-900 mt-1" id="kpi-congregacoes">82</h3>
-                    <div class="flex items-center space-x-2 mt-2 text-xs">
-                        <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-200">SBC: 59</span>
-                        <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold border border-slate-200">Diadema: 23</span>
-                    </div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Congregações</p>
+                    <h3 id="kpiTotal" class="text-3xl font-extrabold text-white mt-1">--</h3>
+                    <p class="text-xs text-blue-400 mt-1"><span id="kpiSbc">--</span> SBC | <span id="kpiDiadema">--</span> Diadema</p>
                 </div>
-                <div class="bg-blue-50 p-3.5 rounded-xl border border-blue-100 text-blue-600">
-                    <i class="fa-solid fa-church text-2xl"></i>
+                <div class="p-3 bg-blue-900/40 border border-blue-800 rounded-lg text-blue-400">
+                    <i class="fa-solid fa-church text-xl"></i>
                 </div>
             </div>
 
-            <!-- KPI 2 -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-slate-200/80 flex items-center justify-between">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Encarregados</p>
-                    <h3 class="text-3xl font-extrabold text-navy-900 mt-1" id="kpi-encarregados">83</h3>
-                    <div class="flex items-center space-x-2 mt-2 text-xs">
-                        <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-200">SBC: 59</span>
-                        <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold border border-slate-200">Diadema: 24</span>
-                    </div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Encarregados</p>
+                    <h3 id="kpiEncarregados" class="text-3xl font-extrabold text-white mt-1">--</h3>
+                    <p class="text-xs text-slate-400 mt-1">Músicos responsáveis</p>
                 </div>
-                <div class="bg-indigo-50 p-3.5 rounded-xl border border-indigo-100 text-indigo-600">
-                    <i class="fa-solid fa-user-tie text-2xl"></i>
+                <div class="p-3 bg-indigo-900/40 border border-indigo-800 rounded-lg text-indigo-400">
+                    <i class="fa-solid fa-user-tie text-xl"></i>
                 </div>
             </div>
 
-            <!-- KPI 3 -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-slate-200/80 flex items-center justify-between">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Ensaios Locais</p>
-                    <h3 class="text-3xl font-extrabold text-navy-900 mt-1" id="kpi-ensaios">82</h3>
-                    <div class="flex items-center space-x-2 mt-2 text-xs">
-                        <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-200">SBC: 59</span>
-                        <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold border border-slate-200">Diadema: 23</span>
-                    </div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Pontos Evangelização</p>
+                    <h3 id="kpiEvangelizacao" class="text-3xl font-extrabold text-white mt-1">04</h3>
+                    <p class="text-xs text-slate-400 mt-1">Em expansão</p>
                 </div>
-                <div class="bg-teal-50 p-3.5 rounded-xl border border-teal-100 text-teal-600">
-                    <i class="fa-solid fa-clipboard-list text-2xl"></i>
+                <div class="p-3 bg-sky-900/40 border border-sky-800 rounded-lg text-sky-400">
+                    <i class="fa-solid fa-location-dot text-xl"></i>
                 </div>
             </div>
 
-            <!-- KPI 4 -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-slate-200/80 flex items-center justify-between">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Pontos de Evangelização</p>
-                    <h3 class="text-3xl font-extrabold text-navy-900 mt-1">04</h3>
-                    <div class="flex items-center space-x-2 mt-2 text-xs">
-                        <span class="px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 font-semibold border border-amber-200">Todos em SBC</span>
-                    </div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Examinadoras / Regionais</p>
+                    <h3 class="text-3xl font-extrabold text-white mt-1">04 / 05</h3>
+                    <p class="text-xs text-slate-400 mt-1">Equipe de Atendimento</p>
                 </div>
-                <div class="bg-amber-50 p-3.5 rounded-xl border border-amber-100 text-amber-600">
-                    <i class="fa-solid fa-location-dot text-2xl"></i>
+                <div class="p-3 bg-teal-900/40 border border-teal-800 rounded-lg text-teal-400">
+                    <i class="fa-solid fa-users text-xl"></i>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Charts Grid Section -->
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Chart 1: Distribuição por Cidade -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-bold text-navy-900 uppercase tracking-wide flex items-center">
-                        <i class="fa-solid fa-chart-pie mr-2 text-blue-600"></i> Distribuição por Cidade
-                    </h3>
-                </div>
-                <div class="relative h-56 flex items-center justify-center">
-                    <canvas id="cidadeChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Chart 2: Atribuição por Regional -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-bold text-navy-900 uppercase tracking-wide flex items-center">
-                        <i class="fa-solid fa-chart-bar mr-2 text-blue-600"></i> Congregações por Regional
-                    </h3>
-                </div>
-                <div class="relative h-56">
-                    <canvas id="regionalChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Chart 3: Atribuição por Examinadora -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-bold text-navy-900 uppercase tracking-wide flex items-center">
-                        <i class="fa-solid fa-user-check mr-2 text-blue-600"></i> Atribuição por Examinadora
-                    </h3>
-                </div>
-                <div class="relative h-56">
-                    <canvas id="examinadoraChart"></canvas>
-                </div>
-            </div>
-        </section>
-
-        <!-- Chart 4: Instrumentos dos Encarregados -->
-        <section class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-bold text-navy-900 uppercase tracking-wide flex items-center">
-                    <i class="fa-solid fa-drumstick-bite mr-2 text-blue-600"></i> Distribuição de Instrumentos dos Encarregados
+        <!-- Gráficos -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+                <h3 class="text-sm font-semibold text-slate-200 mb-4 flex items-center">
+                    <i class="fa-solid fa-chart-pie mr-2 text-blue-400"></i> Distribuição por Cidade
                 </h3>
-                <span class="text-xs text-slate-500 font-medium">Top Instrumentos Registrados</span>
+                <div class="relative h-64 w-full"><canvas id="chartCidades"></canvas></div>
             </div>
-            <div class="relative h-64">
-                <canvas id="instrumentoChart"></canvas>
-            </div>
-        </section>
 
-        <!-- Interactive Table Section -->
-        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-            <!-- Table Header Controls -->
-            <div class="p-5 border-b border-slate-200 bg-slate-50/50">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <h2 class="text-lg font-bold text-navy-900 flex items-center">
-                            <i class="fa-solid fa-table-list mr-2 text-blue-600"></i> Relação Geral de Ensaios & Encarregados
-                        </h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Filtre, pesquise e analise os dados em tempo real</p>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <button onclick="resetFilters()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-lg font-medium transition flex items-center">
-                            <i class="fa-solid fa-arrows-rotate mr-1.5"></i> Limpar Filtros
-                        </button>
-                    </div>
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+                <h3 class="text-sm font-semibold text-slate-200 mb-4 flex items-center">
+                    <i class="fa-solid fa-chart-bar mr-2 text-indigo-400"></i> Congregações por Regional
+                </h3>
+                <div class="relative h-64 w-full"><canvas id="chartRegionais"></canvas></div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+                <h3 class="text-sm font-semibold text-slate-200 mb-4 flex items-center">
+                    <i class="fa-solid fa-user-check mr-2 text-teal-400"></i> Atendimento por Examinadora
+                </h3>
+                <div class="relative h-64 w-full"><canvas id="chartExaminadoras"></canvas></div>
+            </div>
+        </div>
+
+        <!-- Tabela -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 shadow-lg space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center">
+                        <i class="fa-solid fa-list-check mr-2 text-blue-400"></i> Relação Oficial de Ensaios
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">Dados sincronizados em tempo real do Google Sheets</p>
                 </div>
 
-                <!-- Filters Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-4">
-                    <!-- Search Input -->
-                    <div class="relative">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                        <input type="text" id="searchInput" placeholder="Buscar congregação, encarregado..." 
-                            class="w-full pl-9 pr-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                    </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <input type="text" id="searchInput" onkeyup="filtrarTabela()" placeholder="Buscar congregação..." class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full sm:w-64">
+                    
+                    <select id="filterCidade" onchange="filtrarTabela()" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500">
+                        <option value="">Todas as Cidades</option>
+                        <option value="São Bernardo do Campo">São Bernardo do Campo</option>
+                        <option value="Diadema">Diadema</option>
+                    </select>
 
-                    <!-- Filter Cidade -->
-                    <div>
-                        <select id="filterCidade" class="w-full py-2 px-3 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-                            <option value="">Todas as Cidades</option>
-                            <option value="São Bernardo do Campo">São Bernardo do Campo</option>
-                            <option value="Diadema">Diadema</option>
-                        </select>
-                    </div>
-
-                    <!-- Filter Regional -->
-                    <div>
-                        <select id="filterRegional" class="w-full py-2 px-3 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-                            <option value="">Todos os Regionais</option>
-                            <option value="Artur">Artur</option>
-                            <option value="Auyber">Auyber</option>
-                            <option value="Elias">Elias</option>
-                            <option value="Moisés">Moisés</option>
-                            <option value="Valter">Valter</option>
-                        </select>
-                    </div>
-
-                    <!-- Filter Examinadora -->
-                    <div>
-                        <select id="filterExaminadora" class="w-full py-2 px-3 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-                            <option value="">Todas as Examinadoras</option>
-                            <option value="Isabel">Isabel</option>
-                            <option value="Mara">Mara</option>
-                            <option value="Solange">Solange</option>
-                        </select>
-                    </div>
+                    <select id="filterRegional" onchange="filtrarTabela()" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500">
+                        <option value="">Todos os Regionais</option>
+                        <option value="Artur">Artur</option>
+                        <option value="Auyber">Auyber</option>
+                        <option value="Elias">Elias</option>
+                        <option value="Moisés">Moisés</option>
+                        <option value="Valter">Valter</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- Table Container -->
-            <div class="overflow-x-auto custom-scrollbar max-h-[500px]">
-                <table class="w-full text-left border-collapse text-xs">
-                    <thead class="bg-navy-900 text-white uppercase tracking-wider text-[11px] sticky top-0 z-10">
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left text-xs text-slate-300">
+                    <thead class="bg-slate-900/80 text-slate-400 uppercase font-semibold border-b border-slate-700">
                         <tr>
-                            <th class="py-3 px-4 font-semibold">Cidade</th>
-                            <th class="py-3 px-4 font-semibold">Congregação</th>
-                            <th class="py-3 px-4 font-semibold">Ensaio / Agenda</th>
-                            <th class="py-3 px-4 font-semibold">Horário</th>
-                            <th class="py-3 px-4 font-semibold">Encarregado(s)</th>
-                            <th class="py-3 px-4 font-semibold">Instrumento</th>
-                            <th class="py-3 px-4 font-semibold">Contato</th>
-                            <th class="py-3 px-4 font-semibold">Examinadora</th>
-                            <th class="py-3 px-4 font-semibold">Regional</th>
+                            <th class="p-3">Cidade</th>
+                            <th class="p-3">Congregação</th>
+                            <th class="p-3">Ensaio</th>
+                            <th class="p-3">Horário</th>
+                            <th class="p-3">Encarregado</th>
+                            <th class="p-3">Instrumento</th>
+                            <th class="p-3">Contato</th>
+                            <th class="p-3">Examinadora</th>
+                            <th class="p-3">Regional</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody" class="divide-y divide-slate-200 bg-white">
-                        <!-- Content dynamically loaded via JS -->
-                    </tbody>
+                    <tbody id="tabelaCorpo" class="divide-y divide-slate-700/50"></tbody>
                 </table>
             </div>
-
-            <!-- Table Footer -->
-            <div class="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
-                <span>Mostrando <strong id="visibleRowsCount" class="text-navy-900">0</strong> de <strong id="totalRowsCount" class="text-navy-900">0</strong> registros</span>
-                <span class="text-[11px] italic">Dica: Use a caixa de busca para filtrar rapidamente por qualquer termo</span>
-            </div>
-        </section>
-
-        <!-- Responsible & Regional Schedule Grid -->
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <!-- Cards de Anciães, Regionais, Examinadoras e Secretários -->
-            <div class="lg:col-span-2 space-y-4">
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="text-sm font-bold text-navy-900 uppercase tracking-wide border-b border-slate-100 pb-3 mb-4 flex items-center">
-                        <i class="fa-solid fa-users-gear mr-2 text-blue-600"></i> Corpo de Responsáveis Musical
-                    </h3>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Anciães -->
-                        <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
-                            <h4 class="font-bold text-xs text-navy-900 uppercase tracking-wider mb-2 flex items-center">
-                                <i class="fa-solid fa-user-shield text-blue-600 mr-1.5"></i> Anciães
-                            </h4>
-                            <ul class="space-y-1.5 text-xs text-slate-700">
-                                <li class="flex justify-between items-start">
-                                    <span><strong>Claudine Guimarães</strong> <span class="text-[10px] text-slate-500 block">(SBC Central)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">98336-4982</span>
-                                </li>
-                                <li class="flex justify-between items-start border-t border-slate-200/60 pt-1">
-                                    <span><strong>Newton Cesar de Oliveira</strong> <span class="text-[10px] text-slate-500 block">(Vila Baeta Neves)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">99557-1250</span>
-                                </li>
-                                <li class="flex justify-between items-start border-t border-slate-200/60 pt-1">
-                                    <span><strong>Paulo Bueno</strong> <span class="text-[10px] text-slate-500 block">(Parque Galícia)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">91820-5285</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Secretários -->
-                        <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
-                            <h4 class="font-bold text-xs text-navy-900 uppercase tracking-wider mb-2 flex items-center">
-                                <i class="fa-solid fa-file-signature text-blue-600 mr-1.5"></i> Secretários
-                            </h4>
-                            <ul class="space-y-1.5 text-xs text-slate-700">
-                                <li class="flex justify-between items-start">
-                                    <span><strong>Levi Lopes Thomé</strong> <span class="text-[10px] text-slate-500 block">(Sete de Setembro)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">98960-2634</span>
-                                </li>
-                                <li class="flex justify-between items-start border-t border-slate-200/60 pt-1">
-                                    <span><strong>Fábio Famiglietti</strong> <span class="text-[10px] text-slate-500 block">(Vila Baeta Neves)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">98236-0437</span>
-                                </li>
-                                <li class="flex justify-between items-start border-t border-slate-200/60 pt-1">
-                                    <span><strong>Ewerton Cavalcanti</strong> <span class="text-[10px] text-slate-500 block">(SBC Central)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">96619-9143</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Regionais -->
-                        <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
-                            <h4 class="font-bold text-xs text-navy-900 uppercase tracking-wider mb-2 flex items-center">
-                                <i class="fa-solid fa-user-tie text-blue-600 mr-1.5"></i> Encarregados Regionais
-                            </h4>
-                            <ul class="space-y-1.5 text-xs text-slate-700">
-                                <li class="flex justify-between">
-                                    <span><strong>Elias Bordeli (EB)</strong></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">99673-5203</span>
-                                </li>
-                                <li class="flex justify-between border-t border-slate-200/60 pt-1">
-                                    <span><strong>Artur Martins (AM)</strong></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">99949-1017</span>
-                                </li>
-                                <li class="flex justify-between border-t border-slate-200/60 pt-1">
-                                    <span><strong>Moisés Camilio (MC)</strong></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">99409-2818</span>
-                                </li>
-                                <li class="flex justify-between border-t border-slate-200/60 pt-1">
-                                    <span><strong>Auyber Viani Teodoro (AT)</strong></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">97218-8702</span>
-                                </li>
-                                <li class="flex justify-between border-t border-slate-200/60 pt-1">
-                                    <span><strong>Valter de Lima (VL)</strong></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">96351-6523</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Examinadoras -->
-                        <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
-                            <h4 class="font-bold text-xs text-navy-900 uppercase tracking-wider mb-2 flex items-center">
-                                <i class="fa-solid fa-user-check text-blue-600 mr-1.5"></i> Examinadoras
-                            </h4>
-                            <ul class="space-y-1.5 text-xs text-slate-700">
-                                <li class="flex justify-between items-start">
-                                    <span><strong>Devanir Depret Vieira</strong> <span class="text-[10px] text-slate-500 block">(SBC Central)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">99753-8268</span>
-                                </li>
-                                <li class="flex justify-between items-start border-t border-slate-200/60 pt-1">
-                                    <span><strong>Mara Bordeli Camilio</strong> <span class="text-[10px] text-slate-500 block">(Diadema Central)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">97971-4511</span>
-                                </li>
-                                <li class="flex justify-between items-start border-t border-slate-200/60 pt-1">
-                                    <span><strong>Isabel do N. Oliveira</strong> <span class="text-[10px] text-slate-500 block">(Vila Baeta Neves)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">99583-8629</span>
-                                </li>
-                                <li class="flex justify-between items-start border-t border-slate-200/60 pt-1">
-                                    <span><strong>Solange C. M. Evangelista</strong> <span class="text-[10px] text-slate-500 block">(SBC Central)</span></span>
-                                    <span class="font-mono text-slate-600 text-[11px]">97476-4621</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Calendário de Ensaios Regionais -->
-            <div class="bg-navy-900 text-white p-5 rounded-xl shadow-sm flex flex-col justify-between">
-                <div>
-                    <h3 class="text-sm font-bold uppercase tracking-wide border-b border-navy-700 pb-3 mb-4 flex items-center text-blue-300">
-                        <i class="fa-regular fa-calendar-days mr-2"></i> Ensaios Regionais (3º Domingo)
-                    </h3>
-                    
-                    <div class="space-y-4 text-xs">
-                        <!-- Bloco 1 -->
-                        <div class="bg-navy-800/80 p-3.5 rounded-lg border border-navy-700">
-                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-blue-600 text-white mb-2 uppercase">Janeiro • Maio • Setembro</span>
-                            <ul class="space-y-1.5 text-slate-200">
-                                <li class="flex justify-between border-b border-navy-700/50 pb-1">
-                                    <span>São Bernardo do Campo - CENTRAL</span>
-                                    <span class="font-bold text-blue-300">09h</span>
-                                </li>
-                                <li class="flex justify-between border-b border-navy-700/50 pb-1">
-                                    <span>Piraporinha - Diadema</span>
-                                    <span class="font-bold text-blue-300">09h</span>
-                                </li>
-                                <li class="flex justify-between">
-                                    <span>Jardim dos Eucaliptos - Diadema</span>
-                                    <span class="font-bold text-blue-300">14h</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Bloco 2 -->
-                        <div class="bg-navy-800/80 p-3.5 rounded-lg border border-navy-700">
-                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-teal-600 text-white mb-2 uppercase">Março • Julho • Novembro</span>
-                            <ul class="space-y-1.5 text-slate-200">
-                                <li class="flex justify-between border-b border-navy-700/50 pb-1">
-                                    <span>Jd. Transilvânia - Diadema CENTRAL</span>
-                                    <span class="font-bold text-teal-300">09h</span>
-                                </li>
-                                <li class="flex justify-between border-b border-navy-700/50 pb-1">
-                                    <span>Rio Acima (Pós Balsa) - SBC</span>
-                                    <span class="font-bold text-teal-300">09h</span>
-                                </li>
-                                <li class="flex justify-between">
-                                    <span>Parque dos Garças - SBC</span>
-                                    <span class="font-bold text-teal-300">14h</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-4 pt-3 border-t border-navy-700 text-center text-[11px] text-slate-400">
-                    <i class="fa-solid fa-arrows-rotate mr-1"></i> Atualização trimestral - Próxima: JAN/2027
-                </div>
-            </div>
-        </section>
+        </div>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-4 mt-8 no-print">
-        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            Secretaria Musical — Setor São Bernardo do Campo & Diadema © 2026. Todos os direitos reservados.
-        </div>
-    </footer>
-
+    <!-- Lógica de Sincronização Online -->
     <script>
-        // Data derived from the PDF document
-        const dataset = [
-            // SÃO BERNARDO DO CAMPO
-            { cidade: 'São Bernardo do Campo', congregacao: 'Batistini', ensaio: 'Após RJM', horario: '11h45', encarregado: 'Leonilson Cherubelli', instrumento: 'Sax Alto', contato: '98336-4923', examinadora: 'Solange', regional: 'Elias' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Nazareth', ensaio: '—', horario: '—', encarregado: 'Rodolfo Jacobsen Martins', instrumento: 'Trombone', contato: '98338-9875', examinadora: 'Isabel', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque Alvarenga Jd. Nsa de Fátima', ensaio: '1º Domingo', horario: '16h', encarregado: 'José Pereira / Agnaldo Donizetti Angelo', instrumento: 'Eufônio / Trompa', contato: '95950-8292 / 97157-9611', examinadora: 'Isabel', regional: 'Valter / Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jd. das Oliveiras', ensaio: '—', horario: '—', encarregado: 'Lenilson André da Silva', instrumento: 'Clarinete', contato: '99316-4276', examinadora: 'Solange', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'SBC Central', ensaio: '—', horario: '11h30', encarregado: 'Cláudio Caveagna', instrumento: 'Sax Alto', contato: '97246-7609', examinadora: 'Solange / Isabel', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jordanópolis', ensaio: '4º Domingo', horario: '16h', encarregado: 'Valdir Costa', instrumento: 'Trompete', contato: '97393-6159', examinadora: '—', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Las Palmas', ensaio: '—', horario: '—', encarregado: 'Samuel Pina de Souza', instrumento: 'Violino', contato: '96332-1148', examinadora: 'Solange', regional: 'Elias' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Vila Flórida', ensaio: '—', horario: '—', encarregado: 'Bruno Marangoni dos Santos Leite', instrumento: 'Flauta', contato: '98224-9651', examinadora: 'Isabel', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jd. Thelma Vila São Pedro', ensaio: 'Últ. Domingo', horario: '16h', encarregado: 'Samuel N. Melo / Sidnei B. Santos', instrumento: 'Violino / Trompa', contato: '99265-1138 / 97977-8660', examinadora: 'Mara / Solange', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque Imigrantes', ensaio: '—', horario: '—', encarregado: 'Eliandro Fernandes Brito Araújo', instrumento: 'Viola', contato: '95279-7988', examinadora: 'Mara', regional: 'Elias' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Nova Silvina', ensaio: '2ª Segunda', horario: '19h30', encarregado: 'Jeferson Lucas da Silva', instrumento: 'Sax Soprano', contato: '98955-4706', examinadora: 'Solange', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Leblon / Jardim Petroni', ensaio: '2ª Sexta', horario: '19h30', encarregado: 'Rodrigo G. Carvalho / Fábio F. Lazarin', instrumento: 'Violino / Violino', contato: '94277-9867 / 97279-4122', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Vila Paulicéia', ensaio: '1ª Quinta', horario: '20h', encarregado: 'Marcelo Manzano', instrumento: 'Violino', contato: '99937-1773', examinadora: 'Isabel', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque Rio Grande', ensaio: '1ª Quinta', horario: '17h', encarregado: 'Douglas da Silva Francisco', instrumento: 'Violino', contato: '97267-8215', examinadora: 'Solange', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque dos Garças', ensaio: '—', horario: '—', encarregado: 'Lucas Manoel Targino', instrumento: 'Clarone Baixo', contato: '96410-5219', examinadora: 'Isabel', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Gagliardi', ensaio: '—', horario: '—', encarregado: 'João Fernandes de Paula', instrumento: 'Clarinete', contato: '96830-9710', examinadora: 'Isabel', regional: 'Elias' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Alto da Bela Vista', ensaio: '—', horario: '—', encarregado: 'Eduardo Nascimento Ferreira', instrumento: 'Violoncelo', contato: '95814-2431', examinadora: 'Isabel', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Boa Vista', ensaio: '—', horario: '—', encarregado: 'Valdecir Amâncio de Siqueira', instrumento: 'Tuba', contato: '94356-7730', examinadora: 'Solange', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim das Orquídeas', ensaio: '1° Sábado', horario: '19h30', encarregado: 'Ricardo Costa', instrumento: 'Violino', contato: '98050-3691', examinadora: 'Solange', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim do Lago', ensaio: '1° Sábado', horario: '19h30', encarregado: 'José Fabiano Faustino da Silva', instrumento: 'Violoncelo', contato: '97651-8718', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Silvina', ensaio: '—', horario: '—', encarregado: 'Adriano Floro dos Santos', instrumento: 'Sax Tenor', contato: '96967-0970', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Taboão', ensaio: '—', horario: '—', encarregado: 'Marcelo Xavier da Silva', instrumento: 'Sax Alto', contato: '98078-0021', examinadora: 'Mara', regional: 'Elias' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque Neide', ensaio: '—', horario: '—', encarregado: 'Sebastião Carlos dos Santos', instrumento: 'Flauta', contato: '94064-5442', examinadora: 'Solange', regional: 'Elias' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Terra Nova II', ensaio: '—', horario: '—', encarregado: 'Marco Aurélio Antônio', instrumento: 'Trompete', contato: '96526-6236', examinadora: 'Mara', regional: 'Elias' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Tatetos', ensaio: '3ª Quinta', horario: '19h30', encarregado: 'Alessandro Manfrenato Caldeira', instrumento: 'Trompete', contato: '97322-0175', examinadora: 'Solange', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Alto da Serra', ensaio: '—', horario: '16h30', encarregado: 'Vanderlei Pires Valério', instrumento: 'Sax Barítono', contato: '92014-4245', examinadora: 'Solange', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Tupã', ensaio: '—', horario: '17h', encarregado: 'Marcelo Pereira da Silva', instrumento: 'Tuba', contato: '94499-3335', examinadora: 'Isabel', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Rio Acima', ensaio: '—', horario: '—', encarregado: 'Alexandre Ribeiro da Costa', instrumento: 'Violino', contato: '98420-9666', examinadora: 'Solange', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Laura', ensaio: '—', horario: '—', encarregado: 'Ricardo Manoel de Souza', instrumento: 'Trompete', contato: '94852-4105', examinadora: 'Solange', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Nova Baeta', ensaio: '2° Sábado', horario: '—', encarregado: 'Daniel Gonçalves da Silva', instrumento: 'Sax Barítono', contato: '95785-7041', examinadora: 'Isabel', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Vila Nova São Pedro', ensaio: '—', horario: '19h30', encarregado: 'Adriano de Oliveira Souza', instrumento: 'Violino', contato: '95444-9784', examinadora: 'Isabel', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Rudge Ramos', ensaio: '—', horario: '—', encarregado: 'José Rodolfo Mendes Negrão', instrumento: 'Clarone Baixo', contato: '98272-5852', examinadora: 'Solange', regional: 'Elias' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim da Represa', ensaio: '—', horario: '—', encarregado: 'Antônio Pinheiro Fernandes', instrumento: 'Sax Alto', contato: '98178-9298', examinadora: 'Isabel', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Capelinha', ensaio: '—', horario: '—', encarregado: 'Renilson de Lima Melo', instrumento: 'Trombone', contato: '94046-3508', examinadora: 'Mara', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Nova Tatetos', ensaio: '—', horario: '—', encarregado: 'Luiz Claudivan de Oliveira', instrumento: 'Violoncelo', contato: '95073-3127', examinadora: 'Solange', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque Ideal', ensaio: '—', horario: '—', encarregado: 'Eduardo da Silva Maciel', instrumento: 'Trombone', contato: '94788-4471', examinadora: 'Isabel', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Calux', ensaio: '3° Sábado', horario: '17h', encarregado: 'Elias Rodrigues da Silva', instrumento: 'Sax Soprano', contato: '98421-8464', examinadora: 'Isabel', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Pinheiro', ensaio: '—', horario: '—', encarregado: 'Davi Boaventura Costa', instrumento: 'Trompete', contato: '96115-4864', examinadora: 'Solange', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Vila da Paz', ensaio: '—', horario: '—', encarregado: 'Jozivaldo da Silva', instrumento: 'Tuba', contato: '97956-7558', examinadora: 'Solange', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Vila Baeta Neves', ensaio: '—', horario: '—', encarregado: 'André Evangelista', instrumento: 'Sax Alto', contato: '97240-3318', examinadora: 'Isabel', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque Jandaia', ensaio: '—', horario: '—', encarregado: 'Eliveldo Vieira de Santana Gomes', instrumento: 'Violino', contato: '99009-3730', examinadora: 'Mara', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Ribeirão do Soldado', ensaio: '—', horario: '—', encarregado: 'Fabiano Pageu da Silva', instrumento: 'Acordeon', contato: '97869-3436', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Vila Esperança', ensaio: '3° Sábado', horario: '19h30', encarregado: 'Ronaldo Soares da Silva', instrumento: 'Sax Soprano', contato: '98992-6576', examinadora: 'Isabel', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque Estoril', ensaio: '—', horario: '—', encarregado: 'Felipe Forato Rodrigues', instrumento: 'Violino', contato: '97561-8621', examinadora: 'Mara', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Santo Inácio', ensaio: '—', horario: '—', encarregado: 'Ariselmo Damascen Campos', instrumento: 'Clarone Baixo', contato: '97315-0707', examinadora: 'Mara', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Taquacetuba', ensaio: '—', horario: '—', encarregado: 'Anderson de Menezes Soares', instrumento: 'Tuba', contato: '94750-8102', examinadora: 'Solange', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Vila Nova Carminha', ensaio: '—', horario: '16h', encarregado: 'Lucas Ferreira Silvestre', instrumento: 'Violino', contato: '96970-2701', examinadora: 'Isabel', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Varginha', ensaio: '—', horario: '17h15', encarregado: 'Wellington Fernando Silva', instrumento: 'Violino', contato: '96366-3853', examinadora: 'Solange', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Areião', ensaio: '4° Sábado', horario: '—', encarregado: 'Nivaldo Xavier de Araújo', instrumento: 'Violoncelo', contato: '98572-0258', examinadora: 'Isabel', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Royal Park', ensaio: '—', horario: '19h30', encarregado: 'Sebastião Dias', instrumento: 'Eufônio', contato: '95031-9335', examinadora: 'Solange', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Riacho Grande', ensaio: '—', horario: '—', encarregado: 'Jonathan Marigo dos Santos', instrumento: 'Violino', contato: '97561-0652', examinadora: 'Isabel', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Núcleo Santa Cruz', ensaio: '—', horario: '—', encarregado: 'Jonathan Alves Cortez', instrumento: 'Sax Alto', contato: '97378-4780', examinadora: 'Mara', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque Los Angeles', ensaio: '—', horario: '17h', encarregado: 'Elson Vieira Borges', instrumento: 'Tuba', contato: '94809-8472', examinadora: 'Isabel', regional: 'Auyber' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Curucutu', ensaio: 'Últ. Sábado', horario: '17h30', encarregado: 'Adriano Anderson Mazarin', instrumento: 'Trompete', contato: '93453-6349', examinadora: 'Solange', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Parque Selecta', ensaio: 'Últ. Sábado', horario: '19h30', encarregado: 'Ludemilson Gonçalves', instrumento: 'Clarinete', contato: '98689-4636', examinadora: 'Solange', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Jardim Jussara', ensaio: '—', horario: '—', encarregado: 'Eli Monteiro', instrumento: 'Sax Soprano', contato: '99962-7092', examinadora: 'Isabel', regional: 'Valter' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Vila Espanhola (PE)', ensaio: 'Ponto Evangelização', horario: '—', encarregado: '—', instrumento: '—', contato: '—', examinadora: 'Isabel', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Água Limpa (PE)', ensaio: 'Ponto Evangelização', horario: '—', encarregado: '—', instrumento: '—', contato: '—', examinadora: 'Solange', regional: 'Artur' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Santa Filomena (PE)', ensaio: 'Ponto Evangelização', horario: '—', encarregado: '—', instrumento: '—', contato: '—', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'São Bernardo do Campo', congregacao: 'Sítio JM (PE)', ensaio: 'Ponto Evangelização', horario: '—', encarregado: '—', instrumento: '—', contato: '—', examinadora: 'Mara', regional: 'Moisés' },
+        const SPREADSHEET_ID = '1pe8iDKjrWXJbemroLIFiMI_1Hg2N-e0YSWGwPL5Jf5U';
+        let dadosCongregacoes = [];
 
-            // DIADEMA
-            { cidade: 'Diadema', congregacao: 'Piraporinha', ensaio: '—', horario: '09h', encarregado: 'Luciano da Silva', instrumento: 'Flauta', contato: '99970-9631', examinadora: 'Mara', regional: 'Artur' },
-            { cidade: 'Diadema', congregacao: 'Jardim Ivone', ensaio: '—', horario: '—', encarregado: 'Rodrigo da Silva Nascimento', instrumento: 'Violino', contato: '95927-0728', examinadora: 'Solange', regional: 'Valter' },
-            { cidade: 'Diadema', congregacao: 'Parque Galícia', ensaio: '—', horario: '—', encarregado: 'Silvio Dutra Furtado', instrumento: 'Sax Tenor', contato: '99506-0428', examinadora: 'Isabel', regional: 'Artur' },
-            { cidade: 'Diadema', congregacao: 'Eldorado', ensaio: '1° Domingo', horario: '16h', encarregado: 'Reinaldo Silva Santana', instrumento: 'Clarinete', contato: '97084-5318', examinadora: 'Mara', regional: 'Artur' },
-            { cidade: 'Diadema', congregacao: 'Jardim Damasco', ensaio: '—', horario: '—', encarregado: 'Antônio Celso dos Anjos', instrumento: 'Sax Alto', contato: '99839-4208', examinadora: 'Mara', regional: 'Artur' },
-            { cidade: 'Diadema', congregacao: 'Padre Anchieta', ensaio: '—', horario: '—', encarregado: 'Alex Zanquini Alexandrino', instrumento: 'Violino', contato: '95990-7984', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'Diadema', congregacao: 'Jardim Transilvânia - Central', ensaio: '—', horario: '—', encarregado: 'Ronaldo Tavares de Lima', instrumento: 'Violoncelo', contato: '94166-6140', examinadora: 'Mara', regional: 'Elias' },
-            { cidade: 'Diadema', congregacao: 'Parque Sete de Setembro', ensaio: '4º Domingo', horario: '16h', encarregado: 'Joaquim Batista Filho', instrumento: 'Trompete', contato: '95472-2631', examinadora: 'Solange', regional: 'Valter' },
-            { cidade: 'Diadema', congregacao: 'Parque Reid', ensaio: '—', horario: '—', encarregado: 'Gilberto Pereira da Cruz', instrumento: 'Trompete', contato: '94510-9416', examinadora: 'Isabel', regional: 'Valter' },
-            { cidade: 'Diadema', congregacao: 'Jardim dos Eucaliptos', ensaio: 'Últ. Domingo', horario: '16h', encarregado: 'João Ricardo de Oliveira', instrumento: 'Trompete', contato: '99693-9709', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'Diadema', congregacao: 'Vila Jacira', ensaio: 'Últ. Domingo', horario: '16h', encarregado: 'Antônio J. Adorno / André T. Florêncio', instrumento: 'Clarone Baixo', contato: '98175-6323', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'Diadema', congregacao: 'Praia Vermelha', ensaio: '3ª Segunda', horario: '—', encarregado: 'Marcos Ferreira dos Santos', instrumento: 'Sax Barítono', contato: '99791-0366', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'Diadema', congregacao: 'Jardim Ruyce', ensaio: '3ª Sexta', horario: '19h30', encarregado: 'Roberto Rosa Condenso', instrumento: 'Trompete', contato: '92000-0360', examinadora: 'Isabel', regional: 'Artur' },
-            { cidade: 'Diadema', congregacao: 'Vila Lídia', ensaio: 'Últ. Sexta', horario: '19h30', encarregado: 'Adolfo Antoniel Amâncio Gomes', instrumento: 'Sax Alto', contato: '91765-3134', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'Diadema', congregacao: 'Jardim Inamar', ensaio: '—', horario: '—', encarregado: 'Vagner Lourenço Rodrigues', instrumento: 'Flauta', contato: '99189-0828', examinadora: 'Solange', regional: 'Moisés' },
-            { cidade: 'Diadema', congregacao: 'Parque Real', ensaio: '1° Sábado', horario: '19h30', encarregado: 'Ronaldo Pereira dos Santos', instrumento: 'Flauta', contato: '96200-0523', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'Diadema', congregacao: 'Vila Santa Terezinha', ensaio: '—', horario: '—', encarregado: 'Manuel Nunes', instrumento: 'Sax Barítono', contato: '98220-0481', examinadora: 'Isabel', regional: 'Artur' },
-            { cidade: 'Diadema', congregacao: 'Vermelhão', ensaio: '2° Sábado', horario: '17h', encarregado: 'Daniel Benvindo Silva', instrumento: 'Violino', contato: '95482-6913', examinadora: 'Isabel', regional: 'Valter' },
-            { cidade: 'Diadema', congregacao: 'Vila Joaninha', ensaio: '2° Sábado', horario: '—', encarregado: 'Amarildo Bispo de Santana', instrumento: 'Sax Soprano', contato: '99835-8104', examinadora: 'Mara', regional: 'Valter' },
-            { cidade: 'Diadema', congregacao: 'Jardim Ellen', ensaio: '—', horario: '17h', encarregado: 'Felipe de Souza Silva', instrumento: 'Tuba', contato: '99105-5023', examinadora: 'Mara', regional: 'Auyber' },
-            { cidade: 'Diadema', congregacao: 'Nova Diadema', ensaio: 'Últ. Sábado', horario: '19h30', encarregado: 'Felipe Bueno Sanches Serrano', instrumento: 'Violino', contato: '99186-2941', examinadora: 'Mara', regional: 'Moisés' },
-            { cidade: 'Diadema', congregacao: 'Jardim Amuhadi', ensaio: 'Últ. Sábado', horario: '19h30', encarregado: 'Lazaro José Oliveira', instrumento: 'Sax Tenor', contato: '94824-2718', examinadora: 'Mara', regional: 'Artur' },
-            { cidade: 'Diadema', congregacao: 'Jardim ABC', ensaio: '—', horario: '—', encarregado: 'Marcos Cesar Torres', instrumento: 'Sax Alto', contato: '95226-5562', examinadora: 'Solange', regional: 'Elias' }
-        ];
+        window.onload = function() {
+            carregarDadosPlanilha();
+            setInterval(carregarDadosPlanilha, 45000); // Atualiza a cada 45 seg
+        };
 
-        let filteredData = [...dataset];
+        function carregarDadosPlanilha() {
+            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Congregacoes`;
 
-        let cidadeChart, regionalChart, examinadoraChart, instrumentoChart;
+            fetch(url)
+                .then(res => res.text())
+                .then(data => {
+                    const jsonString = data.substring(47, data.length - 2);
+                    const json = JSON.parse(jsonString);
+                    const rows = json.table.rows;
 
-        function initCharts() {
-            // Chart 1: Cidade (Donut)
-            const ctxCidade = document.getElementById('cidadeChart').getContext('2d');
-            cidadeChart = new Chart(ctxCidade, {
-                type: 'doughnut',
-                data: {
-                    labels: ['São Bernardo do Campo', 'Diadema'],
-                    datasets: [{
-                        data: [59, 23],
-                        backgroundColor: ['#1E3A8A', '#3B82F6'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
-                    },
-                    cutout: '65%'
-                }
-            });
+                    dadosCongregacoes = rows.slice(1).map(r => ({
+                        cidade: r.c[0] ? r.c[0].v : '',
+                        congregacao: r.c[1] ? r.c[1].v : '',
+                        ensaio: r.c[2] ? r.c[2].v : '-',
+                        horario: r.c[3] ? r.c[3].v : '-',
+                        encarregado: r.c[4] ? r.c[4].v : '',
+                        instrumento: r.c[5] ? r.c[5].v : '',
+                        contato: r.c[6] ? r.c[6].v : '',
+                        examinadora: r.c[7] ? r.c[7].v : '',
+                        regional: r.c[8] ? r.c[8].v : ''
+                    })).filter(d => d.congregacao !== '');
 
-            // Chart 2: Regional (Bar)
-            const regionalCounts = {};
-            dataset.forEach(item => {
-                const regs = item.regional.split('/').map(r => r.trim());
-                regs.forEach(r => {
-                    if (r && r !== '—') regionalCounts[r] = (regionalCounts[r] || 0) + 1;
+                    document.getElementById('statusText').innerText = "Online (Google Sheets)";
+                    renderizarDados(dadosCongregacoes);
+                })
+                .catch(err => {
+                    console.error("Erro na leitura da planilha:", err);
+                    document.getElementById('statusText').innerText = "Aguardando Permissão...";
                 });
-            });
-
-            const ctxRegional = document.getElementById('regionalChart').getContext('2d');
-            regionalChart = new Chart(ctxRegional, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(regionalCounts),
-                    datasets: [{
-                        label: 'Congregações',
-                        data: Object.values(regionalCounts),
-                        backgroundColor: '#2563EB',
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { precision: 0 } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-
-            // Chart 3: Examinadora (Bar Horiz)
-            const examCounts = {};
-            dataset.forEach(item => {
-                const exams = item.examinadora.split('/').map(e => e.trim());
-                exams.forEach(e => {
-                    if (e && e !== '—') examCounts[e] = (examCounts[e] || 0) + 1;
-                });
-            });
-
-            const ctxExaminadora = document.getElementById('examinadoraChart').getContext('2d');
-            examinadoraChart = new Chart(ctxExaminadora, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(examCounts),
-                    datasets: [{
-                        label: 'Supervisões',
-                        data: Object.values(examCounts),
-                        backgroundColor: ['#0F172A', '#334155', '#64748B'],
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { precision: 0 } },
-                        y: { grid: { display: false } }
-                    }
-                }
-            });
-
-            // Chart 4: Instrumentos (Bar)
-            const instCounts = {};
-            dataset.forEach(item => {
-                const insts = item.instrumento.split('/').map(i => i.trim());
-                insts.forEach(i => {
-                    if (i && i !== '—') instCounts[i] = (instCounts[i] || 0) + 1;
-                });
-            });
-
-            // Sort instruments
-            const sortedInsts = Object.entries(instCounts).sort((a, b) => b[1] - a[1]);
-
-            const ctxInstrumento = document.getElementById('instrumentoChart').getContext('2d');
-            instrumentoChart = new Chart(ctxInstrumento, {
-                type: 'bar',
-                data: {
-                    labels: sortedInsts.map(i => i[0]),
-                    datasets: [{
-                        label: 'Encarregados',
-                        data: sortedInsts.map(i => i[1]),
-                        backgroundColor: '#1E3A8A',
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { precision: 0 } },
-                        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-                    }
-                }
-            });
         }
 
-        function renderTable() {
-            const tbody = document.getElementById('tableBody');
+        function renderizarDados(dados) {
+            preencherTabela(dados);
+            gerarGraficos(dados);
+            atualizarKPIs(dados);
+        }
+
+        function preencherTabela(dados) {
+            const tbody = document.getElementById('tabelaCorpo');
             tbody.innerHTML = '';
 
-            filteredData.forEach((item, index) => {
+            dados.forEach(item => {
                 const tr = document.createElement('tr');
-                tr.className = index % 2 === 0 ? 'bg-white hover:bg-slate-50 transition' : 'bg-slate-50/50 hover:bg-slate-100/70 transition';
-
-                // Cidade Badge
-                const cidadeBadge = item.cidade === 'São Bernardo do Campo' 
-                    ? '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-800 border border-blue-200">SBC</span>'
-                    : '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-200 text-slate-800 border border-slate-300">Diadema</span>';
-
-                // Regional Badge
-                const regBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-navy-100 text-navy-800 border border-navy-200">${item.regional}</span>`;
-
+                tr.className = "hover:bg-slate-800/80 transition";
                 tr.innerHTML = `
-                    <td class="py-2.5 px-4 font-medium whitespace-nowrap">${cidadeBadge}</td>
-                    <td class="py-2.5 px-4 font-semibold text-slate-900">${item.congregacao}</td>
-                    <td class="py-2.5 px-4 text-slate-600">${item.ensaio}</td>
-                    <td class="py-2.5 px-4 font-mono text-slate-600">${item.horario}</td>
-                    <td class="py-2.5 px-4 text-slate-800 font-medium">${item.encarregado}</td>
-                    <td class="py-2.5 px-4 text-slate-600">${item.instrumento}</td>
-                    <td class="py-2.5 px-4 font-mono text-slate-600 text-[11px] whitespace-nowrap">${item.contato}</td>
-                    <td class="py-2.5 px-4 text-slate-700">${item.examinadora}</td>
-                    <td class="py-2.5 px-4 whitespace-nowrap">${regBadge}</td>
+                    <td class="p-3 font-semibold text-slate-300">${item.cidade}</td>
+                    <td class="p-3 font-medium text-white">${item.congregacao}</td>
+                    <td class="p-3 text-slate-400">${item.ensaio}</td>
+                    <td class="p-3 text-slate-400">${item.horario}</td>
+                    <td class="p-3 text-slate-200">${item.encarregado}</td>
+                    <td class="p-3 text-slate-400">${item.instrumento}</td>
+                    <td class="p-3 text-slate-400">${item.contato}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-700 text-teal-300 text-xs">${item.examinadora}</span></td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-700 text-blue-300 text-xs">${item.regional}</span></td>
                 `;
                 tbody.appendChild(tr);
             });
-
-            // Update Counts
-            document.getElementById('visibleRowsCount').innerText = filteredData.length;
-            document.getElementById('totalRowsCount').innerText = dataset.length;
         }
 
-        function filterData() {
+        function filtrarTabela() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             const cidade = document.getElementById('filterCidade').value;
             const regional = document.getElementById('filterRegional').value;
-            const examinadora = document.getElementById('filterExaminadora').value;
 
-            filteredData = dataset.filter(item => {
-                const matchesSearch = !search || 
-                    item.congregacao.toLowerCase().includes(search) ||
-                    item.encarregado.toLowerCase().includes(search) ||
-                    item.instrumento.toLowerCase().includes(search) ||
-                    item.contato.includes(search);
-
-                const matchesCidade = !cidade || item.cidade === cidade;
-                const matchesRegional = !regional || item.regional.includes(regional);
-                const matchesExaminadora = !examinadora || item.examinadora.includes(examinadora);
-
-                return matchesSearch && matchesCidade && matchesRegional && matchesExaminadora;
+            const filtrados = dadosCongregacoes.filter(item => {
+                const matchSearch = item.congregacao.toLowerCase().includes(search) || item.encarregado.toLowerCase().includes(search);
+                const matchCidade = cidade === "" || item.cidade === cidade;
+                const matchRegional = regional === "" || item.regional.includes(regional);
+                return matchSearch && matchCidade && matchRegional;
             });
 
-            renderTable();
+            preencherTabela(filtrados);
         }
 
-        function resetFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('filterCidade').value = '';
-            document.getElementById('filterRegional').value = '';
-            document.getElementById('filterExaminadora').value = '';
-            filteredData = [...dataset];
-            renderTable();
+        function atualizarKPIs(dados) {
+            document.getElementById('kpiTotal').innerText = dados.length;
+            document.getElementById('kpiSbc').innerText = dados.filter(d => d.cidade.includes("Bernardo")).length;
+            document.getElementById('kpiDiadema').innerText = dados.filter(d => d.cidade.includes("Diadema")).length;
+            document.getElementById('kpiEncarregados').innerText = new Set(dados.map(d => d.encarregado)).size;
         }
 
-        // Attach event listeners
-        document.getElementById('searchInput').addEventListener('input', filterData);
-        document.getElementById('filterCidade').addEventListener('change', filterData);
-        document.getElementById('filterRegional').addEventListener('change', filterData);
-        document.getElementById('filterExaminadora').addEventListener('change', filterData);
+        let chart1, chart2, chart3;
 
-        // Initialize App on DOM Load
-        window.onload = function() {
-            initCharts();
-            renderTable();
-        };
+        function gerarGraficos(dados) {
+            const ctx1 = document.getElementById('chartCidades').getContext('2d');
+            const ctx2 = document.getElementById('chartRegionais').getContext('2d');
+            const ctx3 = document.getElementById('chartExaminadoras').getContext('2d');
+
+            if(chart1) chart1.destroy();
+            if(chart2) chart2.destroy();
+            if(chart3) chart3.destroy();
+
+            const sbc = dados.filter(d => d.cidade.includes("Bernardo")).length;
+            const diadema = dados.filter(d => d.cidade.includes("Diadema")).length;
+
+            chart1 = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['SBC', 'Diadema'],
+                    datasets: [{ data: [sbc, diadema], backgroundColor: ['#1E3A8A', '#0284C7'], borderWidth: 0 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#94a3b8' } } } }
+            });
+
+            const regionais = ['Artur', 'Auyber', 'Elias', 'Moisés', 'Valter'];
+            const regCounts = regionais.map(r => dados.filter(d => d.regional.includes(r)).length);
+
+            chart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: regionais,
+                    datasets: [{ data: regCounts, backgroundColor: '#3B82F6' }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#94a3b8' } }, y: { ticks: { color: '#94a3b8' } } } }
+            });
+
+            const examinadoras = ['Solange', 'Isabel', 'Mara'];
+            const exCounts = examinadoras.map(e => dados.filter(d => d.examinadora.includes(e)).length);
+
+            chart3 = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: examinadoras,
+                    datasets: [{ data: exCounts, backgroundColor: '#14B8A6' }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#94a3b8' } }, y: { ticks: { color: '#94a3b8' } } } }
+            });
+        }
     </script>
 </body>
 </html>
